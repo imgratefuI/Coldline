@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coldline Living - Domov</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Přidáno pro ikony sociálních sítí a obecné ikony -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #fff;
+      color: #111;
+    }
+
+    /* Horní lišta */
+    .topbar {
+      background: #fff;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 20px;
+      border-bottom: 1px solid #ccc;
+    }
+    .topbar a {
+      margin: 0 8px;
+      text-decoration: none;
+      color: #000;
+    }
+    .topbar a.highlight {
+      color: deeppink;
+    }
+    .topbar .social-icons a {
+      margin-left: 10px;
+      color: #000;
+    }
+
+    /* Logo a navigace - nyní na stejném řádku */
+    header {
+      display: flex; /* Použijeme flexbox pro zarovnání loga a navigace */
+      justify-content: space-between; /* Rozloží prvky na okraje */
+      align-items: center; /* Vertikální zarovnání na střed */
+      padding: 16px 20px;
+      border-bottom: 1px solid #ccc; /* Přesunuto z nav pro celou šířku */
+    }
+    .logo {
+      /* Logo je nyní obrázek, takže font-size a font-weight zde nejsou potřeba */
+    }
+    .logo img {
+      max-height: 50px; /* Omezí výšku loga, aby se vešlo na řádek */
+      width: auto; /* Zachová poměr stran */
+      display: block; /* Odstraní extra mezeru pod obrázkem */
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap; /* Umožní zalomení na menších obrazovkách */
+      justify-content: center; /* Vycentruje položky navigace */
+      gap: 30px;
+      font-size: 14px;
+      padding: 0; /* Odebrání paddingu, protože je již v headeru */
+    }
+    nav a {
+      text-decoration: none;
+      color: #000;
+      padding-bottom: 5px;
+      cursor: pointer; /* Naznačuje, že je klikatelné */
+      transition: color 0.3s ease, border-bottom-color 0.3s ease, transform 0.2s ease; /* Added transform */
+    }
+    nav a:hover {
+      color: deeppink; /* Change color on hover */
+      transform: translateY(-2px); /* Slight lift on hover */
+    }
+    nav a.active {
+      border-bottom: 2px solid deeppink;
+      color: deeppink;
+    }
+
+    /* Hero sekce - pro slider */
+    .hero {
+      position: relative;
+      width: 100%;
+      max-width: 1480px; /* Nové: Nastaví maximální šířku */
+      margin: 0 auto; /* Nové: Vycentruje sekci hero */
+      height: 500px; /* Pevná výška pro slider */
+      overflow: hidden; /* Skryje přesahující obsah slideů */
+    }
+
+    .slider-container {
+      display: flex;
+      width: 200%; /* Dva obrázky vedle sebe */
+      height: 100%;
+      transition: transform 0.5s ease-in-out; /* Plynulá animace posouvání */
+    }
+
+    .slide {
+      width: 50%; /* KAŽDÝ SLIDE NYNÍ ZABÍRÁ 50% ŠÍŘKY KONTEJNERU POSUVNÍKU */
+      flex-shrink: 0; /* Zabrání zmenšování slideů */
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end; /* Zarovnání textu doprava */
+      padding-right: 50px;
+      box-sizing: border-box;
+      position: relative; /* Pro absolutní pozicování hero-text */
+    }
+    /* Obrázky pro slidery */
+    .slide:nth-child(1) {
+      background-image: url('DOMOV/bck.jpeg'); /* První obrázek */
+    }
+    .slide:nth-child(2) {
+      background-image: url('DOMOV/bck2.jpg'); /* Druhý obrázek */
+    }
+
+    .hero-text {
+      position: absolute; /* Absolutní pozice vzhledem ke slidu */
+      right: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 20px;
+      max-width: 300px;
+      text-align: center;
+    }
+    .hero-text h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+    .hero-text p {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .slider-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .dot.active {
+      background-color: white;
+    }
+
+    /* Info boxy */
+    .info-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 3rem 1rem;
+      background: #fff;
+      margin-top: 2rem;
+    }
+    .info-box {
+      max-width: 250px;
+      text-align: center;
+      position: relative; /* Pro pozicování šipky */
+      overflow: hidden; /* Skryje šipku, když je mimo */
+      cursor: pointer; /* Naznačuje klikatelnost */
+      transition: background-color 0.3s ease;
+      border-radius: 4px; /* Zachování zaoblených rohů */
+    }
+    .info-box:hover {
+      background-color: #f0f0f0; /* Zesvětlení pozadí při najetí */
+    }
+    .info-box img {
+      width: 100%;
+      border-radius: 4px;
+      display: block; /* Odstraní extra mezeru pod obrázkem */
+    }
+    .info-box h3 {
+      margin: 1rem 0 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .info-box p {
+      font-size: 0.95rem;
+      color: #333;
+    }
+
+    .info-box-content {
+      position: relative; /* Pro zamezení překrytí šipkou */
+      z-index: 1; /* Zajistí, že obsah je nad šipkou */
+    }
+
+    .info-box .arrow-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0; /* Zpočátku skryto */
+      transition: opacity 0.3s ease;
+      font-size: 2.5em; /* Větší šipka */
+      color: deeppink; /* Barva šipky */
+      z-index: 2; /* Zajistí, že šipka je nad obsahem */
+    }
+    .info-box:hover .arrow-icon {
+      opacity: 1; /* Zobrazí šipku při najetí */
+    }
+
+
+    /* Nová sekce funkcí na domovské stránce - dlaždice */
+    .functions-section {
+      padding: 1rem 1rem;
+      text-align: center;
+      background-color: #f8f8f8;
+    }
+    .functions-section h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      color: #333;
+    }
+    .functions-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr); /* Pevně 5 sloupců na desktopu */
+      gap: 1.5rem; /* Menší mezera mezi dlaždicemi */
+      max-width: 1200px; /* Širší mřížka pro více sloupců */
+      margin: 0 auto;
+      margin-bottom: 2rem;
+    }
+    .function-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centrování obsahu */
+      justify-content: center; /* Vertikální centrování obsahu */
+      text-align: center; /* Centrování textu */
+      padding: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Jemný stín */
+      border: 1px solid #eee; /* Jemný okraj */
+      min-height: 150px; /* Minimální výška pro dlaždice s ikonami */
+    }
+    .function-item:hover {
+        background-color: #f0f0f0;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Výraznější stín při najetí */
+    }
+    .function-item i { /* Styly pro ikony */
+        font-size: 3.5rem; /* Větší ikony */
+        color: #555; /* Změněno na šedou */
+        margin-bottom: 0.8rem; /* Mezera pod ikonou */
+    }
+    .function-item p {
+      font-size: 1.1rem; /* Mírně menší nadpis */
+      font-weight: 700;
+      color: #333;
+      margin: 0; /* Odebrání okrajů z odstavce */
+    }
+
+    /* Styly pro sekci Studená Linka */
+    #studena-linka-section {
+      display: none; /* Zpočátku skryto */
+      background-color: #f8f8f8;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    #studena-linka-section .container,
+    #proc-zivot-section .container,
+    #functions-detail-section .container,
+    #technologie-section .container,
+    #shop-section .container,
+    #product-detail-section .container { /* Aplikujeme stejné styly na container pro všechny detailní sekce */
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    #studena-linka-section h1,
+    #proc-zivot-section h1,
+    #functions-detail-section h1,
+    #technologie-section h1,
+    #shop-section h1,
+    #product-detail-section h1 {
+      font-size: 2.5em;
+      color: #111;
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    #studena-linka-section h2,
+    #proc-zivot-section h2,
+    #functions-detail-section h2,
+    #technologie-section h2,
+    #shop-section h2,
+    #product-detail-section h2 {
+      font-size: 1.8em;
+      color: #111;
+      text-align: center;
+      margin-top: 5px;
+      margin-bottom: 30px;
+      font-weight: 400;
+    }
+    /* Styly pro obrázky vedle nadpisů */
+    .section-with-image {
+        display: flex;
+        align-items: center; /* Vertikálně zarovná obrázek a nadpis */
+        gap: 15px; /* Mezera mezi obrázkem a nadpisem */
+        margin-top: 40px; /* Zachová původní horní okraj h3 */
+        margin-bottom: 15px; /* Zachová původní dolní okraj h3 */
+    }
+    .section-with-image .heading-image {
+        max-width: 100px; /* Nastaví maximální šířku obrázku */
+        height: auto;
+        border-radius: 4px;
+    }
+    .section-with-image h3 {
+        margin: 0; /* Odebere výchozí okraj z h3, protože mezery řídí flex kontejner */
+        font-size: 1.6em; /* Zachová původní velikost písma */
+        color: #de2a7b; /* Zachová původní barvu */
+        font-weight: 700;
+        text-transform: uppercase;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+        flex-grow: 1; /* Umožní nadpisu zabrat zbývající prostor */
+    }
+
+    #studena-linka-section p,
+    #proc-zivot-section p,
+    #functions-detail-section p,
+    #technologie-section p,
+    #shop-section p,
+    #product-detail-section p {
+      margin-bottom: 15px;
+      font-size: 1.05em;
+    }
+    #studena-linka-section .button,
+    #proc-zivot-section .button,
+    #functions-detail-section .button,
+    #technologie-section .button,
+    #shop-section .button,
+    #product-detail-section .button {
+      display: inline-block;
+      background-color: #de2a7b;
+      color: white;
+      padding: 12px 25px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-weight: 700;
+      transition: background-color 0.3s ease, transform 0.2s ease; /* Přidána transformace pro animaci */
+    }
+    #studena-linka-section .button:hover,
+    #proc-zivot-section .button:hover,
+    #functions-detail-section .button:hover,
+    #technologie-section .button:hover,
+    #shop-section .button:hover,
+    #product-detail-section .button:hover {
+      background-color: #c7246a;
+      transform: translateY(-2px); /* Mírný posun nahoru při najetí */
+    }
+    #studena-linka-section .section-divider,
+    #proc-zivot-section .section-divider,
+    #functions-detail-section .section-divider,
+    #technologie-section .section-divider,
+    #shop-section .section-divider,
+    #product-detail-section .section-divider {
+      height: 1px;
+      background-color: #eee;
+      margin: 40px 0;
+    }
+    #proc-zivot-section {
+        display: none; /* Zpočátku skryto */
+        background-color: #f8f8f8;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+    }
+    #proc-zivot-section .image-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    #proc-zivot-section .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Styly pro detailní sekci funkcí - cihličky */
+    #functions-detail-section .container {
+        display: grid; /* Použijeme grid pro dlaždice */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 2-3 sloupce na desktopu, přizpůsobení */
+        gap: 2rem; /* Mezera mezi dlaždicemi */
+        max-width: 1200px; /* Širší kontejner pro dlaždice */
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #f8f8f8; /* Pozadí pro celou sekci */
+        border-radius: 8px;
+        box-shadow: none; /* Odebrání stínu z kontejneru, stín bude na dlaždicích */
+    }
+    #functions-detail-section .function-detail-item {
+        background-color: #fff; /* Bílé pozadí pro každou dlaždici */
+        padding: 25px; /* Větší padding */
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Stín pro dlaždice */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centrování obsahu */
+        text-align: center; /* Centrování textu */
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-bottom: none; /* Odebrání spodní čáry */
+        margin-bottom: 0; /* Odebrání spodního okraje */
+    }
+    #functions-detail-section .function-detail-item:hover {
+        transform: translateY(-5px); /* Mírný posun nahoru při najetí */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Výraznější stín */
+    }
+    #functions-detail-section .function-detail-item img {
+        width: 100%;
+        max-width: 180px; /* Větší obrázky v detailních dlaždicích */
+        height: auto;
+        border-radius: 4px;
+        margin-bottom: 1.5rem;
+    }
+    #functions-detail-section .function-detail-item h3 {
+        color: #de2a7b; /* Růžová barva pro nadpis */
+        font-size: 1.6em; /* Mírně menší nadpis */
+        margin-top: 0;
+        margin-bottom: 1rem;
+        text-transform: uppercase; /* Všechna písmena velká */
+        border-bottom: none; /* Odebrání spodní čáry */
+        padding-bottom: 0;
+    }
+    #functions-detail-section .function-detail-item p {
+        font-size: 0.95em;
+        line-height: 1.6;
+        margin-bottom: 1.5rem; /* Mezera před tlačítkem */
+    }
+    #functions-detail-section .function-detail-item .button {
+        margin-top: auto; /* Tlačí tlačítko na spodek dlaždice */
+        width: fit-content; /* Přizpůsobí šířku tlačítka obsahu */
+    }
+
+    #technologie-section {
+        display: none; /* Zpočátku skryto */
+        background-color: #f8f8f8;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+    }
+    #technologie-section .tech-detail-item {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+    #technologie-section .tech-detail-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    /* Shop Section Styles */
+    #shop-section {
+      display: none; /* Zpočátku skryto */
+      background-color: #f8f8f8;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    #shop-section .shop-intro {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+      color: #555;
+    }
+
+    #shop-section .shop-intro strong {
+      color: #de2a7b;
+    }
+
+    #shop-section .product-category-title {
+      font-size: 2em;
+      font-weight: bold;
+      color: #111;
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 30px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto 50px auto;
+      padding: 0 1rem;
+    }
+
+    .product-item {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer; /* Make it clickable */
+    }
+
+    .product-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-item img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+
+    .product-item h3 {
+      font-size: 1.3em;
+      color: #333;
+      margin-bottom: 10px;
+      min-height: 3.6em; /* Adjust as needed for consistent height */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .product-item p.price {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #de2a7b;
+      margin-top: auto; /* Pushes price to the bottom */
+    }
+
+    .product-item .add-to-cart { /* This class will no longer be used for buttons, but keeping for reference */
+      background-color: #de2a7b;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .product-item .add-to-cart:hover {
+      background-color: #c7246a;
+    }
+
+    /* Product Detail Section Styles */
+    #product-detail-section {
+      display: none;
+      background-color: #f8f8f8;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    #product-detail-section .product-detail-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    #product-detail-section .product-image-container {
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+    }
+
+    #product-detail-section .product-image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    #product-detail-section .product-info {
+      flex: 2;
+      min-width: 300px;
+    }
+
+    #product-detail-section .product-sku {
+      font-size: 0.9em;
+      color: #777;
+      margin-bottom: 5px;
+    }
+
+    #product-detail-section .product-title {
+      font-size: 2.2em;
+      font-weight: bold;
+      color: #111;
+      margin-bottom: 15px;
+    }
+
+    #product-detail-section .product-description {
+      margin-bottom: 20px;
+    }
+
+    #product-detail-section .download-link {
+      display: inline-block;
+      color: #de2a7b;
+      text-decoration: none;
+      font-weight: bold;
+      margin-bottom: 20px;
+      transition: color 0.3s ease;
+    }
+
+    #product-detail-section .download-link:hover {
+      color: #c7246a;
+    }
+
+    #product-detail-section .product-price {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #de2a7b;
+      margin-bottom: 5px;
+    }
+
+    #product-detail-section .vat-info {
+      font-size: 0.9em;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    #product-detail-section .service-options {
+      margin-top: 30px;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+
+    #product-detail-section .service-options h4 {
+      font-size: 1.2em;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    #product-detail-section .service-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed #eee;
+    }
+
+    #product-detail-section .service-item:last-child {
+      border-bottom: none;
+    }
+
+    #product-detail-section .service-item label {
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    #product-detail-section .service-item .service-price {
+      font-weight: bold;
+      color: #de2a7b;
+    }
+
+    #product-detail-section .quantity-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    #product-detail-section .quantity-button {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      font-size: 1.5em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    #product-detail-section .quantity-button:hover {
+      background-color: #e0e0e0;
+    }
+
+    #product-detail-section .quantity-display {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #333;
+    }
+
+    #product-detail-section .add-to-cart-detail {
+      background-color: #de2a7b;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.2em;
+      font-weight: 700;
+      margin-top: 30px;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    #product-detail-section .add-to-cart-detail:hover {
+      background-color: #c7246a;
+    }
+
+    #product-detail-section .other-payment-options {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    #product-detail-section .product-specs {
+      margin-top: 40px;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+
+    #product-detail-section .product-specs h4 {
+      font-size: 1.5em;
+      color: #de2a7b;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    #product-detail-section .product-specs ul {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 10px 20px;
+    }
+
+    #product-detail-section .product-specs li {
+      margin-bottom: 5px;
+      font-size: 1em;
+      color: #555;
+    }
+
+    #product-detail-section .product-specs li strong {
+      color: #333;
+      margin-right: 5px;
+    }
+
+
+    /* Animace při posouvání */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered effect for grid items */
+    .functions-grid .function-item.animate-on-scroll {
+      transition-delay: var(--delay);
+    }
+    #functions-detail-section .function-detail-item.animate-on-scroll {
+      transition-delay: var(--delay);
+    }
+    #technologie-section .tech-detail-item.animate-on-scroll {
+      transition-delay: var(--delay);
+    }
+    .product-grid .product-item.animate-on-scroll {
+      transition-delay: var(--delay);
+    }
+    #product-detail-section .animate-on-scroll {
+      transition-delay: var(--delay);
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+      max-height: 80vh; /* Omezí výšku modalu */
+      overflow-y: auto; /* Povolí posouvání, pokud je obsah delší */
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-content h3 {
+      color: #de2a7b;
+      font-size: 1.8em;
+      margin-top: 0;
+      margin-bottom: 15px;
+      text-align: center;
+      text-transform: uppercase;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .modal-content p {
+      font-size: 1.0em;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .modal-content h3 + p { /* Style for paragraphs immediately following an h3 */
+      margin-top: 0;
+    }
+
+    .modal-content h4 { /* For sub-headings within modal text */
+        font-size: 1.3em;
+        color: #333;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+
+    .close-button {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 2em;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .close-button:hover {
+      color: #de2a7b;
+    }
+
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column; /* Na menších obrazovkách se logo a navigační menu srovnají pod sebe */
+        align-items: center;
+        gap: 10px; /* Mezera mezi logem a navigačním menu */
+      }
+      nav {
+        flex-direction: column; /* Položky navigace se srovnají pod sebe */
+        gap: 10px;
+        padding-top: 10px; /* Přidat trochu paddingu nahoře, pokud je potřeba */
+        border-top: 1px solid #ccc; /* Znovu přidat horní okraj pro navigaci */
+      }
+      .hero {
+        height: 300px; /* Menší výška pro mobilní zařízení */
+      }
+      .hero-text {
+        right: 20px;
+        left: 20px;
+        max-width: none;
+        padding: 10px;
+      }
+      .hero-text h1 {
+        font-size: 24px;
+      }
+      .hero-text p {
+        font-size: 12px;
+      }
+      .functions-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* 2 sloupce na menších obrazovkách */
+      }
+      .functions-section h2 {
+        font-size: 1.5rem;
+      }
+      #studena-linka-section .container,
+      #proc-zivot-section .container,
+      #functions-detail-section .container,
+      #technologie-section .container,
+      #shop-section .container,
+      #product-detail-section .container {
+        margin: 20px auto;
+        padding: 20px;
+      }
+      #studena-linka-section h1,
+      #proc-zivot-section h1,
+      #functions-detail-section h1,
+      #technologie-section h1,
+      #shop-section h1,
+      #product-detail-section h1 {
+        font-size: 2em;
+      }
+      #studena-linka-section h2,
+      #proc-zivot-section h2,
+      #functions-detail-section h2,
+      #technologie-section h2,
+      #shop-section h2,
+      #product-detail-section h2 {
+        font-size: 1.4em;
+      }
+      #studena-linka-section h3,
+      #proc-zivot-section h3,
+      #functions-detail-section h3,
+      #technologie-section h3,
+      #shop-section h3,
+      #product-detail-section h3 {
+        font-size: 1.3em;
+      }
+      /* Úpravy pro responzivitu obrázků vedle nadpisů */
+      .section-with-image {
+        flex-direction: column; /* Na mobilu pod sebe */
+        align-items: flex-start; /* Zarovnání doleva */
+        gap: 10px;
+      }
+      .section-with-image .heading-image {
+        max-width: 80px; /* Menší obrázky na mobilu */
+      }
+      .section-with-image h3 {
+        text-align: left; /* Zarovnání textu doleva */
+        border-bottom: none; /* Odebrání spodní čáry na mobilu, pokud je potřeba */
+        padding-bottom: 0;
+      }
+      .modal-content {
+        padding: 20px;
+      }
+      .close-button {
+        font-size: 1.5em;
+        top: 10px;
+        right: 15px;
+      }
+
+      #product-detail-section .product-detail-content {
+        flex-direction: column;
+      }
+      #product-detail-section .product-image-container,
+      #product-detail-section .product-info {
+        min-width: unset;
+        width: 100%;
+      }
+      #product-detail-section .product-specs ul {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Horní lišta -->
+<div class="topbar">
+  <div><a href="#">👤 Přihlášení</a></div>
+  <div>
+    <a class="highlight" href="#">demonstrační kurzy</a>
+    <a href="#">prodejci</a>
+    <a href="#">postřehy</a>
+    <a href="#">bulletin</a>
+    <a href="#">Kontakty</a>
+    <a href="#">oblast pro stahování</a>
+    <a href="#">práce</a>
+    <a href="#">TO</a>
+    <a href="#">EN</a>
+    <!-- Přidány ikony sociálních sítí -->
+    <span class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </span>
+  </div>
+</div>
+
+<!-- Header s logem a navigací -->
+<header>
+  <div class="logo">
+    <a href="#" id="logo-link"><img src="logo-coldline-life1.png" alt="Coldline Living Logo"></a>
+  </div>
+  <nav>
+    <a class="active" href="#" id="nav-domov">DOMOV</a>
+    <a href="#" id="nav-studena-linka">COLDLINE</a>
+    <a href="#" id="nav-proc-zivot">PRO ŽIVOT</a>
+    <a href="#" id="nav-funkce">FUNKCE</a> <!-- Přidáno ID pro snadnější odkazování -->
+    <a href="#" id="nav-technologie">TECHNOLOGIE</a> <!-- Nový navigační odkaz -->
+    <a href="#">ŽIVOT</a>
+    <a href="#">VIDEO</a>
+    <a href="#">RECEPTY</a>
+    <a href="#" id="nav-obchod">OBCHOD</a> <!-- Přidáno ID pro snadnější odkazování -->
+    <!-- Přidáno tlačítko košíku -->
+    <a href="#"><i class="fas fa-shopping-cart"></i></a>
+  </nav>
+</header>
+
+<!-- Hlavní banner s posuvnými obrázky -->
+<section class="hero" id="hero-section">
+  <div class="slider-container">
+    <div class="slide">
+      <div class="hero-text">
+        <h1>JÍDLO JE ŽIVOT</h1>
+        <p>KVALITA TOHO, CO JÍME, URČUJE NAŠI POHODU</p>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="hero-text">
+        <h1>10 FUNKCÍ,</h1>
+        <p>NEKONEČNÉ MOŽNOSTI</p>
+      </div>
+    </div>
+  </div>
+  <!-- Šipky byly odstraněny -->
+  <div class="slider-dots" id="sliderDots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+  </div>
+</section>
+
+<!-- Sekce: Boxy -->
+<section class="info-section" id="info-section">
+  <div class="info-box animate-on-scroll">
+    <div class="info-box-content" data-target-section="uz-konec-odpadu">
+      <img src="DOMOV/box.png" alt="Už konec odpadu">
+      <h3 style="margin-bottom: 2.5rem;">KONEC ODPADU</h3>
+      <p>Nejlepší možné uchování potravin a prodloužení jejich trvanlivosti nám umožňuje eliminovat veškerý odpad.</p>
+      <i class="fas fa-arrow-right arrow-icon"></i>
+    </div>
+  </div>
+  <div class="info-box animate-on-scroll">
+    <div class="info-box-content" data-target-section="udrzovani-kvality">
+      <img src="DOMOV/box2.png" alt="Udržování kvality">
+      <h3>UDRŽOVÁNÍ<br>KVALITY</h3>
+      <p>Nabízíme nejpřirozenější dostupnou konzervaci, takovou, která respektuje potraviny a nemění je: za studena.</p>
+      <i class="fas fa-arrow-right arrow-icon"></i>
+    </div>
+  </div>
+  <div class="info-box animate-on-scroll">
+    <div class="info-box-content" data-target-section="domaci-vareni">
+      <img src="DOMOV/box3.jpg" alt="Vaření doma">
+      <h3>VAŘENÍ<br>DOMA</h3>
+      <p>Kdo říkal, že pro zdravé stravování musíte vařit každý den? S LIFE si můžete naplánovat jídelníček předem!</p>
+      <i class="fas fa-arrow-right arrow-icon"></i>
+    </div>
+  </div>
+  <div class="info-box animate-on-scroll">
+    <div class="info-box-content" data-target-section="vysledky-sefkuchare">
+      <img src="DOMOV/box4.png" alt="Výsledky šéfkuchaře">
+      <h3>VÝSLEDKY<br>ŠÉFKUCHAŘE</h3>
+      <p>Všechno, co jste dříve nemohli udělat doma, je nyní možné. Dosáhnete výsledků jako od šéfkuchaře!</p>
+      <i class="fas fa-arrow-right arrow-icon"></i>
+    </div>
+  </div>
+</section>
+
+<!-- Nová sekce s 10 funkcemi na domovské stránce (původní) -->
+<section class="functions-section" id="functions-section">
+  <h2>10 FUNKCÍ,<br>NEKONEČNÉ MOŽNOSTI</h2>
+  <div class="functions-grid">
+    <div class="function-item animate-on-scroll">
+      <!-- Ikona pro Demolice -->
+      <i class="fas fa-minus-circle"></i>
+      <p>Demolice</p>
+    </div>
+    <div class="function-item animate-on-scroll">
+      <!-- Ikona pro Zmrazení -->
+      <i class="fas fa-snowflake"></i>
+      <p>Zmrazení</p>
+    </div>
+    <div class="function-item animate-on-scroll">
+      <!-- Ikona pro Zachování -->
+      <i class="fas fa-box-open"></i>
+      <p>Zachování</p>
+    </div>
+    <div class="function-item animate-on-scroll">
+      <!-- Ikona pro Kynutí -->
+      <i class="fas fa-bread-slice"></i>
+      <p>Kynutí</p>
+    </div>
+    <div class="function-item animate-on-scroll">
+      <!-- Ikona pro Rozmrazování -->
+      <i class="fas fa-temperature-low"></i>
+      <p>Rozmrazování</p>
+    </div>
+    <div class="function-item animate-on-scroll">
+      <!-- Ikona pro Čokoláda -->
+      <i class="fas fa-cookie"></i>
+      <p>Čokoláda</p>
+    </div>
+    <div class="function-item animate-on-scroll">
+      <!-- Ikona pro Jogurt -->
+      <i class="fas fa-spoon"></i>
+      <p>Jogurt</p>
+    </div>
+    <div class="function-item animate-on-scroll">
+      <!-- Ikona pro Chlazené láhve -->
+      <i class="fas fa-wine-bottle"></i>
+      <p>Chlazené láhve</p>
+    </div>
+    <div class="function-item animate-on-scroll">
+      <!-- Ikona pro Sušení -->
+      <i class="fas fa-wind"></i>
+      <p>Sušení</p>
+    </div>
+    <div class="function-item animate-on-scroll">
+      <!-- Ikona pro Pomalé vaření -->
+      <i class="fas fa-fire-alt"></i>
+      <p>Pomalé vaření</p>
+    </div>
+  </div>
+  <!-- Tlačítko "Zjistěte více o funkcích" bylo odstraněno -->
+</section>
+
+<!-- Sekce pro Studená Linka (zpočátku skrytá) -->
+<section id="studena-linka-section">
+  <div class="container">
+    <h1>ZKUŠENOSTI, VÁŠEŇ,</h1>
+    <h1>ODDĚLENÍ, INOVACE.</h1>
+    <h2>HODNOTY, KTERÉ INSPIRUJÍ NAŠI PRÁCI.</h2>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="COLDLINE/vision-chef.jpg" alt="Profesionální kuchyně" class="heading-image">
+      <h3>COLDLINE, PROFESIONÁLNÍ ZKUŠENOSTI</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Společnost Coldline denně podporuje kuchaře a cukráře v nejprestižnějších restauracích světa s nejlepšími řešeními pro chlazení, konzervaci a kynutí. Nejmodernější profesionální technologie pro vynikající a nekompromisní výsledky. Tato přirozená touha po inovacích dosahuje svého vrcholu s uvedením nové domácí divize Coldline Living.
+    </p>
+    <a href="https://coldline.it/it" class="button animate-on-scroll" target="_blank">Objevte Coldline!</a>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="COLDLINE/vision-coldline.jpg" alt="Inovace v kuchyni" class="heading-image">
+      <h3>COLDLINE LIVING, INOVACE V KUCHYNI</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Coldline Living přináší profesionální technologie do vašeho domova. Od dnešního dne můžete používat intenzivní chlad nebo jemné teplo přímo ve vaší kuchyni a dosáhnout tak mimořádných výsledků při přípravě jídel, stejně jako šéfkuchaři.
+    </p>
+    <p class="animate-on-scroll">
+      Vy si vybíráte zdravé, přírodní a sezónní ingredience; my se postaráme o to, aby pro vás byly perfektní.
+    </p>
+  </div>
+</section>
+
+<!-- Sekce pro Pro Život (zpočátku skrytá) -->
+<section id="proc-zivot-section">
+  <div class="container">
+    <h1 class="animate-on-scroll">JÍDLO JE ŽIVOT</h1>
+    <p class="animate-on-scroll">
+      V dobách našich babiček bylo jídlo to jediné, co jste mohli jíst, ale dnes v supermarketech najdeme tisíce produktů, které jako jídlo jen vypadají. Potravinářský průmysl hojně používá chemické konzervanty , cukry a přísady , ale jaký mají dopad na naše zdraví? Je prokázáno, že mezi výživou a pohodou existuje úzká souvislost. S šokovým zchlazovačem LIFE se konečně můžete vzdát průmyslových produktů a používat místo nich čerstvé , přírodní suroviny , které si tak dlouho zachovají čerstvost. Vaření doma bude rychlé a snadné a budete si moci připravovat zdravé a výživné pokrmy, stejně jako je připravovaly naše babičky .
+    </p>
+
+    <div class="section-divider"></div>
+
+    <h3 id="uz-konec-odpadu" class="animate-on-scroll">KONEC ODPADU</h3>
+    <p class="animate-on-scroll">
+      Každý rok skončí v odpadu přibližně 1,3 miliardy tun potravin. I v našich domovech často vaříme a kupujeme vynikající čerstvé suroviny , které nespotřebujeme v očekávaném čase a nakonec je vyhodíme. S šokovým zchlazovačem LIFE můžete prodloužit trvanlivost vašich přípravků tím, že eliminujete veškerý odpad .
+    </p>
+    <div class="image-container animate-on-scroll">
+      <img src="PRO ŽIVOT/life.jpg" alt="Konec odpadu">
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3 id="udrzovani-kvality" class="animate-on-scroll">UDRŽOVÁNÍ KVALITY</h3>
+    <p class="animate-on-scroll">
+      Chlazení vařených potravin na pokojovou teplotu způsobuje ztrátu vitamínů a minerálů, což snižuje jejich kvalitu . Veškeré vaše úsilí o výběr nejlepších surovin je mařeno běžnými konzervačními technikami. S šokovým zchlazovačem LIFE můžete konzervovat například sezónní ovoce a zeleninu: vcelku, nakrájenou na plátky nebo kostky, a díky mimořádným funkcím šokového zchlazování a zmrazování si můžete připravovat lahodné recepty po celý rok .
+    </p>
+    <div class="image-container animate-on-scroll">
+      <img src="PRO ŽIVOT/life1.jpg" alt="Udržování kvality">
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3 id="domaci-vareni" class="animate-on-scroll">DOMÁCÍ VAŘENÍ</h3>
+    <p class="animate-on-scroll">
+      Vaření doma je zdravé a zábavné, ale času je často málo. Ale kdo řekl, že abyste jedli zdravě, musíte vařit každý den? Okamžité použití chladničky po uvaření pomáhá zachovat čerstvost pokrmů, které nekonzumujete ihned. S šokovým zchlazovačem LIFE můžete konečně vařit, když máte čas , a předem si naplánovat týdenní menu. Budete moci vytvářet mimořádná , zdravá a autentická jídla , která dají maximální prostor vaší kreativitě.
+    </p>
+    <div class="image-container animate-on-scroll">
+      <img src="PRO ŽIVOT/life2.jpg" alt="Domácí vaření">
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3 id="vysledky-sefkuchare" class="animate-on-scroll">VÝSLEDKY ŠÉFKUCHAŘE</h3>
+    <p class="animate-on-scroll">
+      Všechno, co jste dosud v kuchyni nemohli dělat, je nyní možné s šokovým zchlazovačem LIFE : bezpečné syrové ryby, dokonale vykynutý chléb, pizza a focaccia, čokolády v nejoriginálnějších tvarech a krémové, přírodní jogurty. To už není výsadou jen špičkových šéfkuchařů; s LIFE můžete vylepšit svůj kulinářský talent a uvolnit svou kreativitu .
+    </p>
+    <div class="image-container animate-on-scroll">
+      <img src="PRO ŽIVOT/life3.jpg" alt="Výsledky šéfkuchaře">
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3 id="cerstve-ingredience" class="animate-on-scroll">ČERSTVÉ INGREDIENCE KAŽDÝ DEN</h3>
+    <p class="animate-on-scroll">
+      V dnešní době máme málo času na nakupování, nemůžeme každý den chodit do místních obchodů a často si do košíků dáváme balené produkty, někdy už uvařené a okořeněné.
+      S šokovým zchlazovačem LIFE si můžete koupit čerstvé , vybrané suroviny , kdykoli máte čas, a zachovat jejich původní kvalitu po dlouhou dobu díky nejpřirozenější metodě konzervace: chlazení . Nejužitečnějšími funkcemi pro konzervaci potravin jsou šokové zchlazení a zmrazení .
+    </p>
+    <div class="image-container animate-on-scroll">
+      <img src="PRO ŽIVOT/life4.jpg" alt="Čerstvé ingredience">
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3 id="zmrazovani-neni-zmrazovani" class="animate-on-scroll">ZMRZNUTÍ NENÍ ZMRZNUTÍ</h3>
+    <p class="animate-on-scroll">
+      Zmrazování a mrazení nejsou synonyma . Během procesu mrazení teplota potraviny velmi rychle klesne na -18 °C díky poklesu teploty vzduchu na -40 °C. Voda uvnitř jednotlivých buněk rychle mrzne a vytváří mikrokrystaly ledu. Při rozmrazování nedochází ke ztrátě tekutiny a původní stav potraviny zůstane zachován. Při mrazení v tradičním mrazáku je chlazení velmi pomalé a voda uvnitř buněk potraviny mrzne a tvoří makrokrystaly , které trhají vlákna. Rozmrazený produkt ztratí mnoho tekutin, vitamínů a živin a jeho kvalita bude nenávratně ztracena. Objevte výhody funkce mrazení .
+    </p>
+    <div class="image-container animate-on-scroll">
+      <img src="PRO ŽIVOT/life5.jpg" alt="Zmrazování vs Mrazení">
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3 id="udrzovani-chladiciho-retezce" class="animate-on-scroll">UDRŽOVÁNÍ CHLADÍCÍHO ŘETĚZCE</h3>
+    <p class="animate-on-scroll">
+      Jak často se mražené potraviny rozmrazují, když si je přinesete domů? Vnější vrstvy produktu se rychle zahřívají a dosahují úrovní, při kterých se aktivuje mikrobiální růst . Produkt dochází ke zhoršení kvality a vznikají zdravotní rizika.
+      S šokovým zchlazovačem LIFE můžete doma zmrazit čerstvé vybrané potraviny při teplotě -40 °C s jistotou, že chladicí řetězec nebude přerušen. Kvalita zůstane vynikající bez jakéhokoli rizika pro vaše zdraví nebo zdraví vašich blízkých.
+    </p>
+    <div class="image-container animate-on-scroll">
+      <img src="PRO ŽIVOT/life6.jpg" alt="Chladící řetězec">
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3 id="odstrante-anisakis" class="animate-on-scroll">ODSTRAŇTE ANISAKIS</h3>
+    <p class="animate-on-scroll">
+      Syrové ryby jsou stále častěji konzumovány rodinami, což je díky cennému obsahu omega-3 mastných kyselin velmi zdravý zvyk. Existují však rizika spojená s kontaminací bakterií Anisakis , parazitem nebezpečným pro zdraví, kterého lze eliminovat pouze delším vařením nebo nízkými teplotami . Zmrazením a skladováním při teplotě -20 °C po dobu alespoň 24 hodin toto riziko mizí. Čerstvé ryby můžete zmrazit při teplotě -40 °C, uchovat je v mrazáku jeden den a vychutnat si je s naprostým bezpečím .
+    </p>
+    <div class="image-container animate-on-scroll">
+      <img src="PRO ŽIVOT/life7.jpg" alt="Anisakis">
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3 id="prirozene-odstaveni" class="animate-on-scroll">PŘIROZENÉ ODSTAVENÍ</h3>
+    <p class="animate-on-scroll">
+      Ovoce a zelenina jsou nezbytné pro dětskou stravu, a to již od odstavení . Čerstvě utržené ovoce má nejvyšší koncentraci minerálů a vitamínů, což jsou faktory, které pomáhají dětem zdravě růst. Kvůli časové tísni a sezónnosti se však často uchylujeme k průmyslově vyráběné dětské výživě. Na pomoc přichází ŽIVOT ! Vyberte si ty nejlepší sezónní suroviny , uvařte je a rozdělte vše na jednotlivé porce. Pokud plánujete jídlo rychle spotřebovat, dejte jídlo do chladničky nebo zmrazte a uložte dětskou výživu do mrazáku. Získáte tak vysoce kvalitní zásobu na nadcházející měsíce, 100% zdravý a přírodní produkt.
+    </p>
+    <div class="image-container animate-on-scroll">
+      <img src="PRO ŽIVOT/life8.jpg" alt="Odstavení">
+    </div>
+  </div>
+</section>
+
+<!-- Nová sekce pro detailní popis funkcí (zpočátku skrytá) -->
+<section id="functions-detail-section">
+  <div class="container">
+    <h1 class="animate-on-scroll">10 FUNKCÍ,<br>NEKONEČNÉ MOŽNOSTI</h1>
+    <h2 class="animate-on-scroll">Podrobný popis všech funkcí LIFE</h2>
+
+    <div class="section-divider"></div>
+
+    <div class="function-detail-item animate-on-scroll">
+      <img src="FUNKCE/function.jpg" alt="Demolice">
+      <h3>Demolice</h3>
+      <p>Rychle ochladí syrové nebo čerstvě uvařené potraviny na +3 °C, blokuje růst bakterií a prodlužuje trvanlivost o 70 % při zachování kvality.</p>
+      <a href="#" class="button" data-function-id="demolice">Zjistěte více</a>
+    </div>
+
+    <div class="function-detail-item animate-on-scroll">
+      <img src="FUNKCE/function1.jpg" alt="Zmrazení">
+      <h3>Zmrazení</h3>
+      <p>Rychle zchladí syrové i vařené potraviny na -40 °C. Každá potravina si zachovává své původní živiny, protože vlákna nejsou poškozená.</p>
+      <a href="#" class="button" data-function-id="zmrazeni">Zjistěte více</a>
+    </div>
+
+    <div class="function-detail-item animate-on-scroll">
+      <img src="FUNKCE/function2.jpg" alt="Zachování">
+      <h3>Zachování</h3>
+      <p>Udržuje potraviny na požadované teplotě mezi -40 °C a +45 °C s nastavitelnou intenzitou ventilace od 25 % do 100 %.</p>
+      <a href="#" class="button" data-function-id="zachovani">Zjistěte více</a>
+    </div>
+
+    <div class="function-detail-item animate-on-scroll">
+      <img src="FUNKCE/function3.jpg" alt="Kynutí">
+      <h3>Kynutí</h3>
+      <p>Vytváří ideální mikroklima pro dokonalé kynutí, podporuje optimální rozvoj vzduchových bublin a aromat. Cyklus může být okamžitý nebo naprogramovaný.</p>
+      <a href="#" class="button" data-function-id="kynuti">Zjistěte více</a>
+    </div>
+
+    <div class="function-detail-item animate-on-scroll">
+      <img src="FUNKCE/function4.jpg" alt="Rozmrazování">
+      <h3>Rozmrazování</h3>
+      <p>Rychle rozmrazujte potraviny zcela bezpečně a zachovávejte jejich původní kvalitu bez jakýchkoli zdravotních rizik.</p>
+      <a href="#" class="button" data-function-id="rozmrazovani">Zjistěte více</a>
+    </div>
+
+    <div class="function-detail-item animate-on-scroll">
+      <img src="FUNKCE/function5.jpg" alt="Čokoláda">
+      <h3>Čokoláda</h3>
+      <p>Umožňuje vám vytvářet čokolády požadovaného tvaru pomocí specializovaných cyklů krystalizace a oddělování.</p>
+      <a href="#" class="button" data-function-id="cokolada">Zjistěte více</a>
+    </div>
+
+    <div class="function-detail-item animate-on-scroll">
+      <img src="FUNKCE/function6.jpg" alt="Jogurt">
+      <h3>Jogurt</h3>
+      <p>Umožňuje vám vyrábět krémové a přírodní jogurty jednoduše s použitím kvalitního mléka.</p>
+      <a href="#" class="button" data-function-id="jogurt">Zjistěte více</a>
+    </div>
+
+    <div class="function-detail-item animate-on-scroll">
+      <img src="FUNKCE/function7.jpg" alt="Chladič lahví">
+      <h3>Chladič lahví</h3>
+      <p>Rychle ochladí víno, pivo a nápoje na požadovanou teplotu.</p>
+      <a href="#" class="button" data-function-id="chladic-lahvi">Zjistěte více</a>
+    </div>
+
+    <div class="function-detail-item animate-on-scroll">
+      <img src="FUNKCE/function8.jpg" alt="Sušení">
+      <h3>Sušení</h3>
+      <p>Dehydratuje ovoce, zeleninu, houby a luštěniny a umožňuje jejich dlouhodobé uchování při pokojové teplotě.</p>
+      <a href="#" class="button" data-function-id="suseni">Zjistěte více</a>
+    </div>
+
+    <div class="function-detail-item animate-on-scroll">
+      <img src="FUNKCE/function9.jpg" alt="Pomalé vaření">
+      <h3>Pomalé vaření</h3>
+      <p>Vakuově vaří potraviny při nízkých teplotách, čímž zvýrazňuje jejich chuť, měkkost a zachovává jejich nutriční hodnoty.</p>
+      <a href="#" class="button" data-function-id="pomale-vareni">Zjistěte více</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Nová sekce pro TECHNOLOGIE (zpočátku skrytá) -->
+<section id="technologie-section">
+  <div class="container">
+    <h1 class="animate-on-scroll">PROFESIONÁLNÍ TECHNOLOGIE</h1>
+    <h2 class="animate-on-scroll">VE VAŠEM DOMOVĚ</h2>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno.jpg" alt="EAT Technology" class="heading-image">
+      <h3>EAT™ – TECHNOLOGIE OBALOVACÍHO VZDUCHU S DYNAMICKOU VENTILACI</h3>
+    </div>
+    <p class="animate-on-scroll">
+      LIFE má mimořádnou schopnost „potlačovat chlad“ zvýšením nebo snížením intenzity ventilace v závislosti na druhu potraviny.
+      Tato změna, která se během cyklu opakuje, zajišťuje rovnoměrné chlazení od jádra k vnějšímu povrchu produktu.
+      Inovativní systém EAT™ – Enveloping Air Tech – a dva ventilátory umístěné v zadní části komory umožňují proudění vzduchu
+      , které obklopuje potraviny, a tím zajišťuje stejnou účinnost chlazení na každé úrovni a kratší dobu chlazení.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno1.jpg" alt="Přední sání" class="heading-image">
+      <h3>PŘEDNÍ SÁNÍ</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Inovativní design sací mřížky zvyšuje akustický komfort a umožňuje pozoruhodný výkon i při umístění v blízkosti trouby.
+      Čelní přívod vzduchu také zjednodušuje instalaci vestavných modelů, čímž se eliminuje nutnost vrtání otvorů do podlahové lišty nebo kuchyňské pracovní desky.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno2.jpg" alt="Design" class="heading-image">
+      <h3>DESIGN, KTERÝ ZVYŠUJE POHODLÍ</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Vnitřní povrchy z nerezové oceli AISI 304 , koplanární dveře a inovativní dotykový displej dodávají spotřebiči LIFE elegantní a harmonický vzhled.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno3.jpg" alt="Panty s tlumením" class="heading-image">
+      <h3>PANTY S TLUMENÍM DOVÍRÁNÍM</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Vnitřní povrchy z nerezové oceli AISI 304, koplanární dveře a inovativní dotykový displej dodávají svítidlu LIFE elegantní a harmonický vzhled.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno4.jpg" alt="Letecká technologie" class="heading-image">
+      <h3>LETECKÁ TECHNOLOGIE</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Izolace vyrobená z materiálů pocházejících z leteckého průmyslu zajišťuje  maximální úsporu energie a činí  LIFE pohodlným a tichým při používání.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno5.jpg" alt="Řízené větrání" class="heading-image">
+      <h3>ŘÍZENÉ VĚTRÁNÍ</h3>
+    </div>
+    <p class="animate-on-scroll">
+      LIFE má mimořádnou schopnost: umožňuje vám „zahnat chlad“ zvýšením nebo snížením intenzity ventilace v závislosti na typu produktu.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno6.jpg" alt="Vysoký výkon" class="heading-image">
+      <h3>VYSOKÝ VÝKON A NÍZKÁ SPOTŘEBA</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Systém LIFE neustále upravuje výkon,  čímž se zabraňuje zbytečnému plýtvání energií.
+      Kompresor se zastaví ve fázích, kdy není potřeba dodatečné chlazení.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno7.jpg" alt="Informace" class="heading-image">
+      <h3>INFORMACE VŽDY K DISPOZICI</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Zapomeňte na návod k obsluze. Každé tlačítko, stisknuté po dobu 3 sekund, poskytuje jasné a přesné informace o vybrané funkci.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno8.jpg" alt="Srdeční sonda" class="heading-image">
+      <h3>SRDEČNÍ SONDA</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Jádrová sonda je zařízení, které indikuje teplotu ve středu produktu, optimalizuje pracovní cykly a snižuje spotřebu energie.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno9.jpg" alt="Vnitřní osvětlení" class="heading-image">
+      <h3>VNITŘNÍ OSVĚTLENÍ</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Osvětlení zajišťuje vynikající viditelnost v komoře. LED technologie zajišťuje nízkou spotřebu energie a nemění vnitřní teplotu.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <div class="section-with-image animate-on-scroll">
+      <img src="TECHNOLOGIE/techno10.jpg" alt="Plyn R290" class="heading-image">
+      <h3>PLYN R290</h3>
+    </div>
+    <p class="animate-on-scroll">
+      Systém LIFE používá plyn R290, který zajišťuje o 30 % vyšší chladicí účinnost než tradiční plyny a minimální dopad na životní prostředí s GWP pouhých 3,8.
+    </p>
+  </div>
+</section>
+
+<!-- Nová sekce pro OBCHOD (zpočátku skrytá) -->
+<section id="shop-section">
+  <div class="container">
+    <p class="shop-intro animate-on-scroll">
+      Šokové zchlazovače a příslušenství jsou k dispozici výhradně pro dodávky do <strong>Itálie</strong>.
+    </p>
+
+    <h2 class="product-category-title animate-on-scroll">Šokové zchlazovače Life</h2>
+    <div class="product-grid">
+      <div class="product-item animate-on-scroll" data-product-id="life-w30n">
+        <img src="OBCHOD/product.webp" alt="Volně stojící šokový zchlazovač LIFE W30N">
+        <h3>Volně stojící šokový zchlazovač LIFE W30N</h3>
+        <p class="price">1 939,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll" data-product-id="life-w30pro">
+        <img src="OBCHOD/product1.webp" alt="Volně stojící šokový zchlazovač LIFE W30PRO">
+        <h3>Volně stojící šokový zchlazovač LIFE W30PRO</h3>
+        <p class="price">2 689,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll" data-product-id="life-w45-inox">
+        <img src="OBCHOD/product2.webp" alt="Profesionální šokový zchlazovač LIFE W45 Inox">
+        <h3>Profesionální šokový zchlazovač LIFE W45 Inox</h3>
+        <p class="price">3 639,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll" data-product-id="life-w45-black-elegance">
+        <img src="OBCHOD/product3.webp" alt="Šokový zchlazovač LIFE W45 Black Elegance">
+        <h3>Šokový zchlazovač LIFE W45 Black Elegance</h3>
+        <p class="price">3 639,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll" data-product-id="life-w45-black-elegance-inox">
+        <img src="OBCHOD/product4.webp" alt="Šokový zchlazovač LIFE W45 Black Elegance z nerezové oceli">
+        <h3>Šokový zchlazovač LIFE W45 Black Elegance z nerezové oceli</h3>
+        <p class="price">3 639,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll" data-product-id="life-w60-inox">
+        <img src="OBCHOD/product5.webp" alt="Profesionální šokový zchlazovač LIFE W60 Inox">
+        <h3>Profesionální šokový zchlazovač LIFE W60 Inox</h3>
+        <p class="price">3 739,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll" data-product-id="life-w60-black-elegance">
+        <img src="OBCHOD/product6.webp" alt="Šokový zchlazovač LIFE W60 Black Elegance">
+        <h3>Šokový zchlazovač LIFE W60 Black Elegance</h3>
+        <p class="price">3 739,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll" data-product-id="life-w60-black-elegance-inox">
+        <img src="OBCHOD/product7.webp" alt="Šokový zchlazovač LIFE W60 Black Elegance z nerezové oceli">
+        <h3>Šokový zchlazovač LIFE W60 Black Elegance z nerezové oceli</h3>
+        <p class="price">3 739,00 €</p>
+      </div>
+    </div>
+
+    <h2 class="product-category-title animate-on-scroll">Příslušenství</h2>
+    <p class="shop-intro animate-on-scroll">
+      Doprava zdarma u objednávek nad 79 €.
+    </p>
+    <div class="product-grid">
+      <div class="product-item animate-on-scroll"> <!-- Accessories are not clickable to detail page -->
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Čistič+ve+spreji" alt="Čistič ve spreji">
+        <h3>Čistič ve spreji</h3>
+        <p class="price">18,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Sušící+podložka" alt="Sušící distanční podložka">
+        <h3>Sušící distanční podložka</h3>
+        <p class="price">42,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Perforovaný+plech+30" alt="Perforovaný plech z nerezové oceli 30">
+        <h3>Perforovaný plech z nerezové oceli 30</h3>
+        <p class="price">42,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Nerezový+gril+30" alt="Nerezový gril 30">
+        <h3>Nerezový gril 30</h3>
+        <p class="price">37,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=30PRO+plech" alt="30PRO perforovaný plech na pečení z nerezové oceli">
+        <h3>30PRO perforovaný plech na pečení z nerezové oceli</h3>
+        <p class="price">46,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=30PRO+gril" alt="30PRO nerezový gril">
+        <h3>30PRO nerezový gril</h3>
+        <p class="price">58,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Perforovaný+plech+60/45" alt="Perforovaný nerezový plech 60/45">
+        <h3>Perforovaný nerezový plech 60/45</h3>
+        <p class="price">49,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Nerezový+plech+GN1/4" alt="Nerezový plech GN1/4">
+        <h3>Nerezový plech GN1/4</h3>
+        <p class="price">22,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Nerezový+plech+GN1/3" alt="Nerezový plech GN1/3">
+        <h3>Nerezový plech GN1/3</h3>
+        <p class="price">29,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Nerezový+plech+GN1/2" alt="Nerezový plech GN1/2">
+        <h3>Nerezový plech GN1/2</h3>
+        <p class="price">31,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Nerezový+plech+GN2/3" alt="Nerezový plech GN2/3">
+        <h3>Nerezový plech GN2/3</h3>
+        <p class="price">44,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Nerezový+gril+60/45" alt="Nerezový gril 60/45">
+        <h3>Nerezový gril 60/45</h3>
+        <p class="price">47,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Forma+srdce" alt="Forma na zmrzlinu ve tvaru srdce">
+        <h3>Forma na zmrzlinu ve tvaru srdce</h3>
+        <p class="price">26,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Klasická+forma" alt="Klasická forma na zmrzlinu">
+        <h3>Klasická forma na zmrzlinu</h3>
+        <p class="price">32,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Dřevěné+tyčinky" alt="Dřevěné tyčinky">
+        <h3>Dřevěné tyčinky</h3>
+        <p class="price">8,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Silikonová+forma+01" alt="Silikonová forma 01">
+        <h3>Silikonová forma 01</h3>
+        <p class="price">23,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Silikonová+forma+02" alt="Silikonová forma 02">
+        <h3>Silikonová forma 02</h3>
+        <p class="price">23,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Silikonová+forma+03" alt="Silikonová forma 03">
+        <h3>Silikonová forma 03</h3>
+        <p class="price">23,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Silikonová+forma+04" alt="Silikonová forma 04">
+        <h3>Silikonová forma 04</h3>
+        <p class="price">30,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Dřevěná+kostka" alt="Černá laminovaná dřevěná kostka">
+        <h3>Černá laminovaná dřevěná kostka</h3>
+        <p class="price">497,00 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Sonda+W30" alt="Srdeční sonda W30">
+        <h3>Srdeční sonda W30</h3>
+        <p class="price">87,84 €</p>
+      </div>
+      <div class="product-item animate-on-scroll">
+        <img src="https://placehold.co/150x100/f0f0f0/333333?text=Srdeční+sonda" alt="Srdeční sonda">
+        <h3>Srdeční sonda</h3>
+        <p class="price">87,84 €</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Nová sekce pro detail produktu (zpočátku skrytá) -->
+<section id="product-detail-section">
+  <div class="container">
+    <div class="product-detail-content">
+      <div class="product-image-container animate-on-scroll">
+        <img id="product-detail-image" src="" alt="Product Image">
+      </div>
+      <div class="product-info animate-on-scroll">
+        <p class="product-sku" id="product-detail-sku"></p>
+        <h1 class="product-title" id="product-detail-title"></h1>
+        <p class="product-description" id="product-detail-description"></p>
+        <a href="#" class="download-link" id="product-detail-tech-sheet" target="_blank">Stáhnout technický list</a>
+        <p class="product-price" id="product-detail-price"></p>
+        <p class="vat-info">Včetně DPH.</p>
+
+        <div class="service-options">
+          <h4>Vyberte produkt a případné další služby</h4>
+          <div class="service-item">
+            <label for="delivery-option">
+              <input type="checkbox" id="delivery-option"> + Doručení na místo s telefonickou výpovědní lhůtou
+            </label>
+            <span class="service-price">100,00 €</span>
+          </div>
+          <div class="service-item">
+            <label for="phone-notification-option">
+              <input type="checkbox" id="phone-notification-option"> + Telefonické oznámení
+            </label>
+            <span class="service-price">10,00 €</span>
+          </div>
+        </div>
+
+        <div class="quantity-control">
+          <button class="quantity-button" id="decrease-quantity">-</button>
+          <span class="quantity-display" id="product-quantity">1</span>
+          <button class="quantity-button" id="increase-quantity">+</button>
+        </div>
+
+        <button class="add-to-cart-detail">Přidat do košíku</button>
+        <p class="other-payment-options">Další možnosti platby</p>
+
+        <div class="product-specs">
+          <h4>Specifikace</h4>
+          <ul id="product-detail-specs">
+            <!-- Specs will be dynamically loaded here -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Modal Structure -->
+<div id="functionModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="close-button">&times;</button>
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const navDomov = document.getElementById('nav-domov');
+    const navStudenaLinka = document.getElementById('nav-studena-linka');
+    const navProcZivot = document.getElementById('nav-proc-zivot');
+    const navFunkce = document.getElementById('nav-funkce');
+    const navTechnologie = document.getElementById('nav-technologie');
+    const navObchod = document.getElementById('nav-obchod');
+    const logoLink = document.getElementById('logo-link');
+
+    const heroSection = document.getElementById('hero-section');
+    const infoSection = document.getElementById('info-section');
+    const functionsSection = document.getElementById('functions-section');
+    const studenaLinkaSection = document.getElementById('studena-linka-section');
+    const procZivotSection = document.getElementById('proc-zivot-section');
+    const functionsDetailSection = document.getElementById('functions-detail-section');
+    const technologieSection = document.getElementById('technologie-section');
+    const shopSection = document.getElementById('shop-section');
+    const productDetailSection = document.getElementById('product-detail-section'); // Nová sekce pro detail produktu
+
+    const sliderContainer = heroSection.querySelector('.slider-container');
+    const slides = heroSection.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('sliderDots');
+    const dots = dotsContainer.querySelectorAll('.dot');
+
+    const functionModal = document.getElementById('functionModal');
+    const closeModalButton = functionModal.querySelector('.close-button');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+
+    let currentSlide = 0;
+    let slideInterval;
+
+    // Object to store detailed content for each function
+    const functionDetails = {
+      "demolice": {
+        title: "VÍTE, PROČ SE JÍDLO RYCHLE ZKAZUJE?",
+        description: `
+          <p>Všichni víme, že bakterie přeměňují chemikálie v potravinách,
+          což způsobuje jejich znehodnocení . Někteří lidé však možná nevědí, že ideální podmínky pro množení bakterií se nacházejí v teplotním rozmezí
+          mezi +65 °C a +10 °C, což se stane, když necháme uvařený výrobek vychladnout při pokojové teplotě .</p>
+          <h3>BEZ ŠOKOVÉHO ZCHLAZOVAČE LIFE SE ŽIVINY ZHOŘÍ!</h3>
+          <p>Kouř, který vidíme, když čerstvě uvařené maso, ryby a zelenina vychladnou na pokojovou teplotu, není nic jiného než voda, která se odpařuje a odnáší
+          většinu živin, nevyhnutelně vysušuje produkt a způsobuje výraznou ztrátu hmotnosti.
+          Výsledkem jsou bezchutné a ochuzené pokrmy.
+          Chlazení v domácím šokovém zchlazovači LIFE okamžitě zastaví odpařování a ztrátu vitamínů, bílkovin a minerálů.</p>
+          <h3>POKUD ŠOKOVĚ ZCHLAZUJETE S TEPLOTOU +3 °C, PRODLOUŽÍ SE TRVANLIVOST O 70 %.</h3>
+          <p>Aktivita bakterií se zrychluje, když jsou potraviny vystaveny vysokým teplotám. Rychlé
+          ochlazení čerstvě uvařených potravin na +3 °C výrazně prodlužuje jejich trvanlivost ,
+          až o 70 %, a zároveň si zachovává jejich původní kvalitu. I po několika dnech zůstane měkkost a vůně
+          potravin stejná; bílkoviny, vitamíny a minerály zůstanou zachovány.</p>
+        `
+      },
+      "zmrazeni": {
+        title: "RYCHLÉ ZMRAZENÍ PRO DOKONALOU KVALITU",
+        description: `
+          <p>Funkce zmrazení v LIFE rychle snižuje teplotu potravin na -40 °C, což vede k tvorbě mikrokrystalů ledu. Tento proces zabraňuje poškození buněčné struktury potravin, což znamená, že si zachovávají své původní živiny, chuť a texturu i po rozmrazení. Zapomeňte na rozmrazené potraviny bez chuti a plné vody – s LIFE budou vaše zmrazené pokrmy jako čerstvé.</p>
+        `
+      },
+      "zachovani": {
+        title: "OPTIMÁLNÍ KONZERVACE PRO DLOUHODOBOU ČERSTVOST",
+        description: `
+          <p>Zachování potravin v ideálních podmínkách je klíčové pro jejich dlouhou trvanlivost a kvalitu. LIFE udržuje stabilní teplotu mezi -40 °C a +45 °C a umožňuje nastavit intenzitu ventilace od 25 % do 100 %. To zajišťuje, že každá potravina je konzervována přesně tak, jak potřebuje, minimalizuje se ztráta vlhkosti a prodlužuje se čerstvost bez použití chemických přísad.</p>
+        `
+      },
+      "kynuti": {
+        title: "DOKONALÉ KYNUTÍ PRO VAŠE PEČIVO",
+        description: `
+          <p>S funkcí kynutí v LIFE vytvoříte ideální mikroklima pro vaše těsto. Ať už pečete chléb, pizzu nebo jiné pečivo, LIFE zajistí optimální teplotu a vlhkost, což vede k dokonale vykynutému těstu s bohatou chutí a texturou. Můžete si vybrat mezi okamžitým kynutím nebo naprogramovat cyklus na později, aby bylo pečivo připraveno přesně, kdy ho potřebujete.</p>
+        `
+      },
+      "rozmrazovani": {
+        title: "BEZPEČNÉ A RYCHLÉ ROZMRAZOVÁNÍ",
+        description: `
+          <p>Zapomeňte na zdlouhavé a nebezpečné rozmrazování potravin na kuchyňské lince. LIFE nabízí funkci rychlého a bezpečného rozmrazování, která minimalizuje riziko růstu bakterií a zároveň zachovává původní kvalitu a texturu jídla. Vaše potraviny budou rozmrazeny rovnoměrně a připraveny k okamžitému použití, aniž by ztratily svou chuť nebo živiny.</p>
+        `
+      },
+      "cokolada": {
+        title: "PERFEKTNÍ ČOKOLÁDA S LIFE",
+        description: `
+          <p>Funkce čokolády v LIFE vám umožní snadno temperovat čokoládu a vytvářet úžasné čokoládové kreace. S přesnými cykly krystalizace a oddělování dosáhnete lesklých a křupavých čokoládových výrobků, které se netaví v rukou a mají dokonalou texturu. Objevte nové možnosti pro vaše dezerty a cukroví.</p>
+        `
+      },
+      "jogurt": {
+        title: "DOMÁCÍ JOGURT SNADNO A RYCHLE",
+        description: `
+          <p>Vytvořte si vlastní krémový a přírodní jogurt přímo ve vaší kuchyni s funkcí jogurtu v LIFE. Stačí jen kvalitní mléko a LIFE se postará o zbytek. Užijte si čerstvý jogurt bez konzervantů a přidaných cukrů, přesně podle vaší chuti. Ideální pro zdravou snídani nebo svačinu.</p>
+        `
+      },
+      "chladic-lahvi": {
+        title: "RYCHLÉ ZCHLAZENÍ NÁPOJŮ",
+        description: `
+          <p>Potřebujete rychle zchladit víno, pivo nebo jiné nápoje? Funkce chladiče lahví v LIFE to zvládne během několika minut. Už žádné čekání na vychlazené nápoje – s LIFE budete mít vždy připravené osvěžení pro každou příležitost.</p>
+        `
+      },
+      "suseni": {
+        title: "ZDRAVÉ SUŠENÍ POTRAVIN",
+        description: `
+          <p>Dehydratujte ovoce, zeleninu, houby a luštěniny s funkcí sušení v LIFE. Tento proces umožňuje dlouhodobé uchování potravin při pokojové teplotě a zachovává jejich vitamíny a minerály. Vytvořte si zdravé svačinky nebo ingredience pro vaše recepty s maximální kontrolou nad procesem sušení.</p>
+        `
+      },
+      "pomale-vareni": {
+        title: "POVRCHOVÉ VAŘENÍ PRO GURMÁNSKÉ ZÁŽITKY",
+        description: `
+          <p>Objevte kouzlo pomalého vaření s funkcí vakuového vaření v LIFE. Vaření při nízkých teplotách zvýrazňuje přirozenou chuť potravin, zajišťuje jejich neuvěřitelnou měkkost a zachovává maximální množství živin. Připravte si gurmánské pokrmy jako profesionální šéfkuchaři přímo u vás doma.</p>
+        `
+      }
+    };
+
+    // Product Details Data
+    const productDetails = {
+      "life-w30n": {
+        sku: "W61020220210 - W30N",
+        title: "Volně stojící šokový zchlazovač LIFE W30N",
+        description: "LIFE W30N kombinuje všestrannost vestavných modelů s volně stojící funkčností a nabízí všechny vlastnosti řady domácích šokových zchlazovačů LIFE. Unikátní kapacita a design, navržené tak, aby se hodily do každé kuchyně! Estetické provedení z elegantního černého lesklého skla a profesionální nerezové oceli.",
+        image: "https://placehold.co/400x300/f0f0f0/333333?text=LIFE+W30N+Detail",
+        techSheet: "#", // Placeholder for actual tech sheet link
+        price: "1 939,00 €",
+        specs: {
+          "Funkce": "chlazení, mražení, kynutí, rozmrazování, konzervace, čokoláda, jogurt, chlazení lahví, sušení, pomalé vaření při nízkých teplotách",
+          "Provozní režimy": "160 automatických programů, s teplotní sondou, bez teplotní sondy",
+          "Vybavení": "1 rošt GN2/3, sonda pro měření teploty jádra, dezinfekční prostředek",
+          "Teploty": "-40 °C / +85 °C",
+          "Větrání": "nastavitelné 25 % – 100 %",
+          "Displej": "dotykový, 4,3 palce",
+          "Objem": "38 litrů, 4 úrovně",
+          "Vnější rozměry": "600 x 622 x 418 mm"
+        }
+      },
+      "life-w30pro": {
+        sku: "W61020220211 - W30PRO",
+        title: "Volně stojící šokový zchlazovač LIFE W30PRO",
+        description: "LIFE W30PRO kombinuje všestrannost vestavných modelů s volně stojící funkčností a nabízí všechny vlastnosti řady domácích šokových zchlazovačů LIFE. Unikátní kapacita a design, navržené tak, aby se hodily do každé kuchyně! Estetické provedení z elegantního černého lesklého skla a profesionální nerezové oceli.",
+        image: "image_3d5b85.png", // Using the provided image for W30PRO
+        techSheet: "#", // Placeholder for actual tech sheet link
+        price: "2 689,00 €",
+        specs: {
+          "Funkce": "chlazení, mražení, kynutí, rozmrazování, konzervace, čokoláda, jogurt, chlazení lahví, sušení, pomalé vaření při nízkých teplotách",
+          "Provozní režimy": "160 automatických programů, s teplotní sondou, bez teplotní sondy",
+          "Vybavení": "1 rošt GN2/3, sonda pro měření teploty jádra, dezinfekční prostředek",
+          "Teploty": "-40 °C / +85 °C",
+          "Větrání": "nastavitelné 25 % – 100 %",
+          "Displej": "dotykový, 4,3 palce",
+          "Objem": "38 litrů, 4 úrovně",
+          "Vnější rozměry": "600 x 622 x 418 mm"
+        }
+      },
+      "life-w45-inox": {
+        sku: "W61020220212 - W45 INOX",
+        title: "Profesionální šokový zchlazovač LIFE W45 Inox",
+        description: "LIFE W45 Inox je profesionální šokový zchlazovač navržený pro ty, kteří hledají špičkový výkon a elegantní design. Ideální pro moderní kuchyně, nabízí pokročilé funkce pro chlazení, mražení a konzervaci potravin.",
+        image: "https://placehold.co/400x300/f0f0f0/333333?text=LIFE+W45+Inox+Detail",
+        techSheet: "#",
+        price: "3 639,00 €",
+        specs: {
+          "Funkce": "chlazení, mražení, kynutí, rozmrazování, konzervace, čokoláda, jogurt, chlazení lahví, sušení, pomalé vaření při nízkých teplotách",
+          "Provozní režimy": "160 automatických programů, s teplotní sondou, bez teplotní sondy",
+          "Vybavení": "1 rošt GN2/3, sonda pro měření teploty jádra, dezinfekční prostředek",
+          "Teploty": "-40 °C / +85 °C",
+          "Větrání": "nastavitelné 25 % – 100 %",
+          "Displej": "dotykový, 4,3 palce",
+          "Objem": "45 litrů, 5 úrovní",
+          "Vnější rozměry": "600 x 622 x 450 mm"
+        }
+      },
+      "life-w45-black-elegance": {
+        sku: "W61020220213 - W45 BLACK",
+        title: "Šokový zchlazovač LIFE W45 Black Elegance",
+        description: "LIFE W45 Black Elegance přináší do vaší kuchyně styl a výkon. S elegantním černým designem a všemi funkcemi pro dokonalou konzervaci a přípravu pokrmů.",
+        image: "https://placehold.co/400x300/f0f0f0/333333?text=LIFE+W45+Black+Detail",
+        techSheet: "#",
+        price: "3 639,00 €",
+        specs: {
+          "Funkce": "chlazení, mražení, kynutí, rozmrazování, konzervace, čokoláda, jogurt, chlazení lahví, sušení, pomalé vaření při nízkých teplotách",
+          "Provozní režimy": "160 automatických programů, s teplotní sondou, bez teplotní sondy",
+          "Vybavení": "1 rošt GN2/3, sonda pro měření teploty jádra, dezinfekční prostředek",
+          "Teploty": "-40 °C / +85 °C",
+          "Větrání": "nastavitelné 25 % – 100 %",
+          "Displej": "dotykový, 4,3 palce",
+          "Objem": "45 litrů, 5 úrovní",
+          "Vnější rozměry": "600 x 622 x 450 mm"
+        }
+      },
+      "life-w45-black-elegance-inox": {
+        sku: "W61020220214 - W45 BLACK INOX",
+        title: "Šokový zchlazovač LIFE W45 Black Elegance z nerezové oceli",
+        description: "Tento model kombinuje eleganci černé s odolností nerezové oceli. Nabízí všechny pokročilé funkce LIFE pro domácí i profesionální použití.",
+        image: "https://placehold.co/400x300/f0f0f0/333333?text=LIFE+W45+Black+Inox+Detail",
+        techSheet: "#",
+        price: "3 639,00 €",
+        specs: {
+          "Funkce": "chlazení, mražení, kynutí, rozmrazování, konzervace, čokoláda, jogurt, chlazení lahví, sušení, pomalé vaření při nízkých teplotách",
+          "Provozní režimy": "160 automatických programů, s teplotní sondou, bez teplotní sondy",
+          "Vybavení": "1 rošt GN2/3, sonda pro měření teploty jádra, dezinfekční prostředek",
+          "Teploty": "-40 °C / +85 °C",
+          "Větrání": "nastavitelné 25 % – 100 %",
+          "Displej": "dotykový, 4,3 palce",
+          "Objem": "45 litrů, 5 úrovní",
+          "Vnější rozměry": "600 x 622 x 450 mm"
+        }
+      },
+      "life-w60-inox": {
+        sku: "W61020220215 - W60 INOX",
+        title: "Profesionální šokový zchlazovač LIFE W60 Inox",
+        description: "LIFE W60 Inox je robustní a výkonný šokový zchlazovač, ideální pro náročné uživatele a větší rodiny. Nabízí rozšířenou kapacitu a všechny špičkové funkce LIFE v provedení z nerezové oceli.",
+        image: "https://placehold.co/400x300/f0f0f0/333333?text=LIFE+W60+Inox+Detail",
+        techSheet: "#",
+        price: "3 739,00 €",
+        specs: {
+          "Funkce": "chlazení, mražení, kynutí, rozmrazování, konzervace, čokoláda, jogurt, chlazení lahví, sušení, pomalé vaření při nízkých teplotách",
+          "Provozní režimy": "160 automatických programů, s teplotní sondou, bez teplotní sondy",
+          "Vybavení": "1 rošt GN2/3, sonda pro měření teploty jádra, dezinfekční prostředek",
+          "Teploty": "-40 °C / +85 °C",
+          "Větrání": "nastavitelné 25 % – 100 %",
+          "Displej": "dotykový, 4,3 palce",
+          "Objem": "60 litrů, 6 úrovní",
+          "Vnější rozměry": "600 x 622 x 600 mm"
+        }
+      },
+      "life-w60-black-elegance": {
+        sku: "W61020220216 - W60 BLACK",
+        title: "Šokový zchlazovač LIFE W60 Black Elegance",
+        description: "Elegantní a výkonný šokový zchlazovač LIFE W60 Black Elegance v černém provedení. Ideální pro ty, kteří chtějí kombinovat moderní design s maximální funkčností a kapacitou.",
+        image: "https://placehold.co/400x300/f0f0f0/333333?text=LIFE+W60+Black+Detail",
+        techSheet: "#",
+        price: "3 739,00 €",
+        specs: {
+          "Funkce": "chlazení, mražení, kynutí, rozmrazování, konzervace, čokoláda, jogurt, chlazení lahví, sušení, pomalé vaření při nízkých teplotách",
+          "Provozní režimy": "160 automatických programů, s teplotní sondou, bez teplotní sondy",
+          "Vybavení": "1 rošt GN2/3, sonda pro měření teploty jádra, dezinfekční prostředek",
+          "Teploty": "-40 °C / +85 °C",
+          "Větrání": "nastavitelné 25 % – 100 %",
+          "Displej": "dotykový, 4,3 palce",
+          "Objem": "60 litrů, 6 úrovní",
+          "Vnější rozměry": "600 x 622 x 600 mm"
+        }
+      },
+      "life-w60-black-elegance-inox": {
+        sku: "W61020220217 - W60 BLACK INOX",
+        title: "Šokový zchlazovač LIFE W60 Black Elegance z nerezové oceli",
+        description: "Spojení elegance a odolnosti v modelu LIFE W60 Black Elegance z nerezové oceli. Nabízí velkou kapacitu a všechny funkce pro dokonalou přípravu a konzervaci potravin.",
+        image: "https://placehold.co/400x300/f0f0f0/333333?text=LIFE+W60+Black+Inox+Detail",
+        techSheet: "#",
+        price: "3 739,00 €",
+        specs: {
+          "Funkce": "chlazení, mražení, kynutí, rozmrazování, konzervace, čokoláda, jogurt, chlazení lahví, sušení, pomalé vaření při nízkých teplotách",
+          "Provozní režimy": "160 automatických programů, s teplotní sondou, bez teplotní sondy",
+          "Vybavení": "1 rošt GN2/3, sonda pro měření teploty jádra, dezinfekční prostředek",
+          "Teploty": "-40 °C / +85 °C",
+          "Větrání": "nastavitelné 25 % – 100 %",
+          "Displej": "dotykový, 4,3 palce",
+          "Objem": "60 litrů, 6 úrovní",
+          "Vnější rozměry": "600 x 622 x 600 mm"
+        }
+      }
+    };
+
+    // Funkce pro zobrazení konkrétního slidu
+    function showSlide(index) {
+      if (index >= slides.length) {
+        currentSlide = 0;
+      } else if (index < 0) {
+        currentSlide = slides.length - 1;
+      } else {
+        currentSlide = index;
+      }
+      sliderContainer.style.transform = `translateX(-${currentSlide * (100 / slides.length)}%)`;
+
+      dots.forEach((dot, i) => {
+        if (i === currentSlide) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    // Funkce pro posun na další slide
+    function nextSlide() {
+      showSlide(currentSlide + 1);
+    }
+
+    // Spuštění automatického posouvání
+    function startSlider() {
+      stopSlider(); // Zajištění, že předchozí interval je vymazán
+      slideInterval = setInterval(nextSlide, 5000); // Mění slide každých 5 sekund
+    }
+
+    // Zastavení automatického posouvání
+    function stopSlider() {
+      clearInterval(slideInterval);
+    }
+
+    // Přidání posluchačů událostí pro tečky
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        stopSlider();
+        showSlide(index);
+        startSlider(); // Restartuje interval po manuální změně
+      });
+    });
+
+    // Zastavení/spuštění slideru při najetí/odjetí myší
+    heroSection.addEventListener('mouseenter', stopSlider);
+    heroSection.addEventListener('mouseleave', startSlider);
+
+
+    // Funkce pro skrytí všech obsahových sekcí
+    function hideAllContentSections() {
+      heroSection.style.display = 'none';
+      infoSection.style.display = 'none';
+      functionsSection.style.display = 'none';
+      studenaLinkaSection.style.display = 'none';
+      procZivotSection.style.display = 'none';
+      functionsDetailSection.style.display = 'none';
+      technologieSection.style.display = 'none';
+      shopSection.style.display = 'none';
+      productDetailSection.style.display = 'none'; // Skryje sekci detailu produktu
+      stopSlider(); // Zastaví slider, když není na domovské stránce
+    }
+
+    // Funkce pro odstranění aktivní třídy ze všech navigačních odkazů
+    function removeActiveClassFromNav() {
+      navDomov.classList.remove('active');
+      navStudenaLinka.classList.remove('active');
+      navProcZivot.classList.remove('active');
+      navFunkce.classList.remove('active');
+      navTechnologie.classList.remove('active');
+      navObchod.classList.remove('active');
+    }
+
+    // Funkce pro zobrazení domovské stránky
+    function showHomePage() {
+      hideAllContentSections();
+      heroSection.style.display = 'block';
+      infoSection.style.display = 'flex';
+      functionsSection.style.display = 'block';
+      removeActiveClassFromNav();
+      navDomov.classList.add('active');
+      showSlide(0); // Zobrazí první slide při návratu na domovskou stránku
+      startSlider();
+
+      // Re-observe elements in visible sections
+      resetAndObserveSection(infoSection);
+      resetAndObserveSection(functionsSection);
+    }
+
+    // Funkce pro zobrazení stránky Studená Linka
+    function showStudenaLinkaPage() {
+      hideAllContentSections();
+      studenaLinkaSection.style.display = 'block';
+      removeActiveClassFromNav();
+      navStudenaLinka.classList.add('active');
+      resetAndObserveSection(studenaLinkaSection);
+    }
+
+    // Funkce pro zobrazení stránky Proč Život
+    function showProcZivotPage() {
+      hideAllContentSections();
+      procZivotSection.style.display = 'block';
+      removeActiveClassFromNav();
+      navProcZivot.classList.add('active');
+      resetAndObserveSection(procZivotSection);
+    }
+
+    // Funkce pro zobrazení stránky Funkce (detailní)
+    function showFunctionsDetailPage() {
+      hideAllContentSections();
+      functionsDetailSection.style.display = 'block';
+      removeActiveClassFromNav();
+      navFunkce.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      resetAndObserveSection(functionsDetailSection);
+    }
+
+    // Funkce pro zobrazení stránky Technologie
+    function showTechnologiePage() {
+      hideAllContentSections();
+      technologieSection.style.display = 'block';
+      removeActiveClassFromNav();
+      navTechnologie.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      resetAndObserveSection(technologieSection);
+    }
+
+    // Funkce pro zobrazení stránky Obchod
+    function showShopPage() {
+      hideAllContentSections();
+      shopSection.style.display = 'block';
+      removeActiveClassFromNav();
+      navObchod.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      resetAndObserveSection(shopSection);
+    }
+
+    // Funkce pro zobrazení detailu produktu
+    function showProductDetailPage(productId) {
+      hideAllContentSections();
+      productDetailSection.style.display = 'block';
+      removeActiveClassFromNav(); // No active class for product detail in nav
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const product = productDetails[productId];
+      if (product) {
+        document.getElementById('product-detail-sku').textContent = "SKU: " + product.sku;
+        document.getElementById('product-detail-title').textContent = product.title;
+        document.getElementById('product-detail-description').textContent = product.description;
+        document.getElementById('product-detail-image').src = product.image;
+        document.getElementById('product-detail-price').textContent = product.price;
+        document.getElementById('product-detail-tech-sheet').href = product.techSheet;
+
+        const specsList = document.getElementById('product-detail-specs');
+        specsList.innerHTML = ''; // Clear previous specs
+        for (const [key, value] of Object.entries(product.specs)) {
+          const listItem = document.createElement('li');
+          listItem.innerHTML = `<strong>${key}:</strong> ${value}`;
+          specsList.appendChild(listItem);
+        }
+      }
+      resetAndObserveSection(productDetailSection);
+    }
+
+
+    // Přidání posluchačů událostí pro navigaci
+    navDomov.addEventListener('click', function(event) {
+      event.preventDefault();
+      showHomePage();
+    });
+
+    navStudenaLinka.addEventListener('click', function(event) {
+      event.preventDefault();
+      showStudenaLinkaPage();
+    });
+
+    navProcZivot.addEventListener('click', function(event) {
+      event.preventDefault();
+      showProcZivotPage();
+    });
+
+    navFunkce.addEventListener('click', function(event) {
+      event.preventDefault();
+      showFunctionsDetailPage();
+    });
+
+    navTechnologie.addEventListener('click', function(event) {
+      event.preventDefault();
+      showTechnologiePage();
+    });
+
+    navObchod.addEventListener('click', function(event) {
+      event.preventDefault();
+      showShopPage();
+    });
+
+    // Přidání posluchače událostí pro logo
+    logoLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      showHomePage();
+    });
+
+    // Získání všech info-box prvků
+    const infoBoxes = document.querySelectorAll('.info-box-content');
+
+    infoBoxes.forEach(box => {
+      box.addEventListener('click', function(event) {
+        event.preventDefault();
+        const targetSectionId = this.dataset.targetSection;
+
+        showProcZivotPage();
+
+        setTimeout(() => {
+          const targetElement = document.getElementById(targetSectionId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+      });
+    });
+
+    // Přidání posluchače událostí pro každý function-item
+    const functionItems = document.querySelectorAll('.function-item');
+    functionItems.forEach(item => {
+      item.addEventListener('click', function(event) {
+        event.preventDefault();
+        showFunctionsDetailPage();
+      });
+    });
+
+    // Přidání posluchače událostí pro každý produktový box v obchodě (pro šokové zchlazovače)
+    const productItems = document.querySelectorAll('#shop-section .product-item[data-product-id]');
+    productItems.forEach(item => {
+      item.addEventListener('click', function(event) {
+        event.preventDefault();
+        const productId = this.dataset.productId;
+        showProductDetailPage(productId);
+      });
+    });
+
+    // Quantity control for product detail page
+    const decreaseQuantityButton = document.getElementById('decrease-quantity');
+    const increaseQuantityButton = document.getElementById('increase-quantity');
+    const productQuantityDisplay = document.getElementById('product-quantity');
+
+    let currentQuantity = 1;
+
+    decreaseQuantityButton.addEventListener('click', () => {
+      if (currentQuantity > 1) {
+        currentQuantity--;
+        productQuantityDisplay.textContent = currentQuantity;
+      }
+    });
+
+    increaseQuantityButton.addEventListener('click', () => {
+      currentQuantity++;
+      productQuantityDisplay.textContent = currentQuantity;
+    });
+
+
+    // Modal functionality
+    const learnMoreButtons = document.querySelectorAll('#functions-detail-section .button');
+
+    learnMoreButtons.forEach(button => {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        const functionId = this.dataset.functionId;
+        const details = functionDetails[functionId];
+
+        if (details) {
+          modalTitle.innerHTML = details.title;
+          modalBody.innerHTML = details.description;
+          functionModal.classList.add('active');
+        }
+      });
+    });
+
+    closeModalButton.addEventListener('click', () => {
+      functionModal.classList.remove('active');
+    });
+
+    functionModal.addEventListener('click', (event) => {
+      if (event.target === functionModal) {
+        functionModal.classList.remove('active');
+      }
+    });
+
+    // Intersection Observer for scroll animations
+    const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    function resetAndObserveSection(sectionElement) {
+      const elementsToAnimate = sectionElement.querySelectorAll('.animate-on-scroll');
+      elementsToAnimate.forEach(el => {
+        el.classList.remove('visible');
+        observer.observe(el);
+      });
+    }
+
+    // Set staggered animation delays
+    const functionGridItems = document.querySelectorAll('.functions-grid .function-item');
+    functionGridItems.forEach((item, index) => {
+      item.style.setProperty('--delay', `${index * 0.1}s`);
+    });
+
+    const functionDetailItems = document.querySelectorAll('#functions-detail-section .function-detail-item');
+    functionDetailItems.forEach((item, index) => {
+      item.style.setProperty('--delay', `${index * 0.1}s`);
+    });
+
+    const techDetailItems = document.querySelectorAll('#technologie-section .tech-detail-item');
+    techDetailItems.forEach((item, index) => {
+      item.style.setProperty('--delay', `${index * 0.1}s`);
+    });
+
+    const shopProductItems = document.querySelectorAll('#shop-section .product-item');
+    shopProductItems.forEach((item, index) => {
+      item.style.setProperty('--delay', `${index * 0.05}s`); // Slightly faster stagger for shop items
+    });
+
+    showHomePage();
+  });
+</script>
+
+</body>
+</html>
