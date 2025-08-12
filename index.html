@@ -1039,6 +1039,200 @@
         grid-template-columns: 1fr;
       }
     }
+/* --- ŽIVOT sekce (hero + produkty) --- */
+#life-section {
+  display: none;
+  background: var(--bg-secondary);
+  padding: 60px 20px 0;
+  color: var(--text);
+}
+
+.life-hero {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.life-hero h1 {
+  font-size: 2.5rem;
+  line-height: 1.1;
+  margin: 0 0 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.life-hero p.lead {
+  font-size: 1.125rem;
+  color: #222;
+  max-width: 900px;
+  margin: 0 auto 24px;
+}
+
+.life-products {
+  max-width: 1200px;
+  margin: 0 auto 60px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 26px;
+  padding: 0 10px;
+}
+
+.product-card {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-card h4 {
+  margin: 8px 0 6px;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.product-card .meta {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.product-card .desc {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 12px;
+  flex: 1;
+}
+
+.product-card .btn-more {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  background: #de2a7b;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+/* --- Carousel --- */
+.product-card .carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background-color: #f3f3f3;
+  transition: height 300ms ease;
+}
+
+.product-card .carousel img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Animace */
+@keyframes slideInFromRight {
+  0% { transform: translate(100%, -50%); opacity: 0; }
+  100% { transform: translate(-50%, -50%); opacity: 1; }
+}
+@keyframes slideOutToLeft {
+  0% { transform: translate(-50%, -50%); opacity: 1; }
+  100% { transform: translate(-200%, -50%); opacity: 0; }
+}
+
+.carousel img.entering {
+  animation: slideInFromRight 0.5s ease forwards;
+}
+.carousel img.leaving {
+  animation: slideOutToLeft 0.5s ease forwards;
+}
+.carousel img.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* --- RESPONSIVE BREAKPOINTS --- */
+
+/* Tablety na šířku (<=1024px) */
+@media (max-width: 1024px) {
+  .life-products {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .life-hero h1 {
+    font-size: 2.2rem;
+  }
+  .life-hero p.lead {
+    font-size: 1rem;
+  }
+}
+
+/* Tablety na výšku a malé notebooky (<=768px) */
+@media (max-width: 768px) {
+  #life-section {
+    padding: 40px 15px;
+  }
+  .life-products {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .life-hero h1 {
+    font-size: 2rem;
+  }
+  .product-card {
+    padding: 14px;
+  }
+  .product-card h4 {
+    font-size: 1rem;
+  }
+  .product-card .desc,
+  .product-card .meta {
+    font-size: 0.9rem;
+  }
+}
+
+/* Telefony (<=480px) */
+@media (max-width: 480px) {
+  .life-products {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .life-hero h1 {
+    font-size: 1.6rem;
+    line-height: 1.2;
+  }
+  .life-hero p.lead {
+    font-size: 0.95rem;
+  }
+  .product-card {
+    padding: 12px;
+  }
+  .product-card .btn-more {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+
+
+
   </style>
 </head>
 <body>
@@ -1080,7 +1274,7 @@
     <a href="#proc-zivot" id="nav-proc-zivot">PRO ŽIVOT</a>
     <a href="#funkce" id="nav-funkce">FUNKCE</a> <!-- Přidáno ID pro snadnější odkazování -->
     <a href="#technologie" id="nav-technologie">TECHNOLOGIE</a> <!-- Nový navigační odkaz -->
-    <a href="#">ŽIVOT</a>
+    <a href="#life" id="nav-life">ŽIVOT</a>
     <a href="#">VIDEO</a>
     <a href="#">RECEPTY</a>
     <a href="#obchod" id="nav-obchod">OBCHOD</a> <!-- Přidáno ID pro snadnější odkazování -->
@@ -1124,7 +1318,7 @@
   <div class="info-box animate-on-scroll">
     <div class="info-box-content" data-target-section="uz-konec-odpadu">
       <img src="DOMOV/box.png" alt="Už konec odpadu">
-      <h3 style="margin-bottom: 2.5rem;">KONEC ODPADU</h3>
+      <h3>KONEC<br>ODPADU</h3>
       <p>Nejlepší možné uchování potravin a prodloužení jejich trvanlivosti nám umožňuje eliminovat veškerý odpad.</p>
       <i class="fas fa-arrow-right arrow-icon"></i>
     </div>
@@ -1215,9 +1409,9 @@
 
 <!-- Sekce pro Studená Linka (zpočátku skrytá) -->
 <section id="studena-linka-section">
-  <div class="container">
+  <div class="container animate-on-scroll">
     <h1>ZKUŠENOSTI, VÁŠEŇ,</h1>
-    <h1>ODDĚLENÍ, INOVACE.</h1>
+    <h1 style="margin-top: 0px;">ODDĚLENÍ, INOVACE.</h1>
     <h2>HODNOTY, KTERÉ INSPIRUJÍ NAŠI PRÁCI.</h2>
 
     <div class="section-divider"></div>
@@ -1552,6 +1746,81 @@
   </div>
 </section>
 
+<!-- Nová sekce pro ŽIVOT (zpočátku skrytá) -->
+<section id="life-section" aria-labelledby="life-heading" style="display:none;">
+  <div class="life-hero">
+    <h1 id="life-heading" class="animate-on-scroll" style="--delay:0s; margin-bottom: 25px">
+      ŠOKOVÝ ZCHLAZOVAČ LIFE DOMESTIC:<br>PROFESIONÁLNÍ TECHNOLOGIE VE VAŠEM DOMOVĚ
+    </h1>
+    <p class="lead animate-on-scroll" style="--delay:0.05s">
+      V minulém století vstoupila lednice do našich domovů a od té doby se stala <strong>nepostradatelným spotřebičem</strong> v každé rodině.
+      Dnes šokový zchlazovač <strong>LIFE</strong> pro domácnost otevírá <strong>novou éru v kuchyni</strong>.
+    </p>
+  </div>
+
+  <div class="life-products" role="list">
+    <!-- Produkt 1 -->
+    <div class="product-card animate-on-scroll" role="listitem" tabindex="0" style="--delay:0.10s">
+      <div class="carousel" aria-roledescription="slideshow" aria-label="Galerie LIFE W60">
+        <img src="ŽIVOT/zivot1.jpg" alt="LIFE W60 — pohled 1" class="active" />
+        <img src="ŽIVOT/zivot2.jpg" alt="LIFE W60 — pohled 2" />
+        <img src="ŽIVOT/zivot3.jpg" alt="LIFE W60 — pohled 3" />
+      </div>
+      <h4>Domácí šokový zchlazovač LIFE W60 Black Elegance</h4>
+      <div class="meta">Přední · Zadní · 1 2 3</div>
+      <div class="desc">
+        <strong>Vestavěný LIFE W60</strong><br>
+        Nejprostornější. Technologie, velikost a design. Každý detail je pečlivě zvážen, abyste mohli nabídnout to nejlepší.
+      </div>
+      <a href="#obchod/produkty/life-w60-black" class="btn-more" data-product-id="life-w60-black">Zjistěte více</a>
+    </div>
+
+    <!-- Produkt 2 -->
+    <div class="product-card animate-on-scroll" role="listitem" tabindex="0" style="--delay:0.15s">
+      <div class="carousel" aria-roledescription="slideshow" aria-label="Galerie LIFE W45">
+        <img src="ŽIVOT/zivot4.jpg" alt="LIFE W45 — pohled 1" class="active" />
+        <img src="ŽIVOT/zivot5.jpg" alt="LIFE W45 — pohled 2" />
+        <img src="ŽIVOT/zivot6.jpg" alt="LIFE W45 — pohled 3" />
+      </div>
+      <h4>Šokový zchlazovač LIFE Coldline Living W45A1</h4>
+      <div class="meta">Přední · Zadní · 1 2 3</div>
+      <div class="desc">
+        <strong>Vestavná LIFE W45</strong><br>
+        Vhodné pro rodiny s dětmi. Navrženo s optimální velikostí pro rodinu a elegantně zapadne do každé kuchyně.
+      </div>
+      <a href="#obchod/produkty/life-w45" class="btn-more" data-product-id="life-w45">Zjistěte více</a>
+    </div>
+
+    <!-- Produkt 3 -->
+    <div class="product-card animate-on-scroll" role="listitem" tabindex="0" style="--delay:0.20s">
+      <div class="carousel" aria-roledescription="slideshow" aria-label="Galerie LIFE W30PRO">
+        <img src="ŽIVOT/zivot7.jpg" alt="LIFE W30PRO — pohled 1" class="active" />
+      </div>
+      <h4>Pracovní deska LIFE W30PRO</h4>
+      <div class="meta">Přední · Zadní · 1 2 3</div>
+      <div class="desc">
+        Život se stává ještě větším. Všestrannost velkých rozměrů v kombinaci s výhodou bezplatné instalace.
+      </div>
+      <a href="#obchod/produkty/life-w30pro" class="btn-more" data-product-id="life-w30pro">Zjistěte více</a>
+    </div>
+
+    <!-- Produkt 4 -->
+    <div class="product-card animate-on-scroll" role="listitem" tabindex="0" style="--delay:0.25s">
+      <div class="carousel" aria-roledescription="slideshow" aria-label="Galerie LIFE W30">
+        <img src="ŽIVOT/zivot8.png" alt="LIFE W30 — pohled 1" class="active" />
+      </div>
+      <h4>Pracovní deska LIFE W30</h4>
+      <div class="meta">Přední · Zadní · 1 2 3</div>
+      <div class="desc">
+        Jedinečný styl všude. Technologická síla se všemi funkcemi řady. Ideální do každé kuchyně.
+      </div>
+      <a href="#obchod/produkty/life-w30" class="btn-more" data-product-id="life-w30">Zjistěte více</a>
+    </div>
+  </div>
+</section>
+
+
+
 <!-- Nová sekce pro OBCHOD (zpočátku skrytá) -->
 <section id="shop-section">
   <div class="container">
@@ -1791,8 +2060,10 @@
     const navProcZivot = document.getElementById('nav-proc-zivot');
     const navFunkce = document.getElementById('nav-funkce');
     const navTechnologie = document.getElementById('nav-technologie');
+    const navLife = document.getElementById('nav-life');
     const navObchod = document.getElementById('nav-obchod');
     const logoLink = document.getElementById('logo-link');
+
 
     const heroSection = document.getElementById('hero-section');
     const infoSection = document.getElementById('info-section');
@@ -1801,12 +2072,13 @@
     const procZivotSection = document.getElementById('proc-zivot-section');
     const functionsDetailSection = document.getElementById('functions-detail-section');
     const technologieSection = document.getElementById('technologie-section');
+    const lifeSection = document.getElementById('life-section'); // Nová sekce pro ŽIVOT
     const shopSection = document.getElementById('shop-section');
     const productDetailSection = document.getElementById('product-detail-section'); // Nová sekce pro detail produktu
 
     const allContentSections = [
       heroSection, infoSection, functionsSection, studenaLinkaSection,
-      procZivotSection, functionsDetailSection, technologieSection,
+      procZivotSection, functionsDetailSection, technologieSection, lifeSection,
       shopSection, productDetailSection
     ];
 
@@ -2125,6 +2397,7 @@
       navFunkce.classList.remove('active');
       navTechnologie.classList.remove('active');
       navObchod.classList.remove('active');
+      navLife.classList.remove('active');
     }
 
     // Funkce pro zobrazení domovské stránky
@@ -2210,6 +2483,156 @@
       resetAndObserveSection(technologieSection);
     }
 
+    //ANIMACE ŽIVOT
+let destroyLifeCarousels = null;
+
+function initLifeCarousels(options = {}) {
+  const intervalMs = options.intervalMs || 3000;
+  const cards = document.querySelectorAll('#life-section .product-card');
+
+  if (typeof destroyLifeCarousels === 'function') {
+    try { destroyLifeCarousels(); } catch {}
+    destroyLifeCarousels = null;
+  }
+
+  const state = [];
+
+  cards.forEach((card, cardIndex) => {
+    const carousel = card.querySelector('.carousel');
+    if (!carousel) return;
+
+    const imgs = Array.from(carousel.querySelectorAll('img'));
+    if (!imgs.length) return;
+
+    const ratios = new Array(imgs.length).fill(null);
+
+    function setCarouselHeightForIndex(i, animate = true) {
+      const r = ratios[i];
+      const containerWidth = carousel.clientWidth;
+      if (r && r.w > 0 && containerWidth > 0) {
+        const targetHeight = Math.round(containerWidth * (r.h / r.w));
+        if (!animate) {
+          carousel.style.transition = 'none';
+          carousel.style.height = targetHeight + 'px';
+          carousel.offsetHeight; // reflow
+          carousel.style.transition = '';
+        } else {
+          carousel.style.height = targetHeight + 'px';
+        }
+      }
+    }
+
+    imgs.forEach((img, i) => {
+      function storeDimensions() {
+        if (img.naturalWidth && img.naturalHeight) {
+          ratios[i] = { w: img.naturalWidth, h: img.naturalHeight };
+        }
+      }
+      if (img.complete) {
+        storeDimensions();
+      } else {
+        img.addEventListener('load', storeDimensions, { once: true });
+      }
+    });
+
+    let current = imgs.findIndex(img => img.classList.contains('active'));
+    if (current < 0) {
+      current = 0;
+      imgs[current].classList.add('active');
+    }
+    setCarouselHeightForIndex(current, false);
+
+    const onResize = () => setCarouselHeightForIndex(current, true);
+    window.addEventListener('resize', onResize);
+
+    function showIndex(i) {
+      if (i === current) return;
+
+      const currentImg = imgs[current];
+      const nextImg = imgs[i];
+
+      currentImg.classList.remove('active');
+      currentImg.classList.add('leaving');
+      nextImg.classList.add('entering');
+
+      setCarouselHeightForIndex(i, true);
+
+      nextImg.addEventListener('animationend', () => {
+        nextImg.classList.remove('entering');
+        nextImg.classList.add('active');
+      }, { once: true });
+
+      currentImg.addEventListener('animationend', () => {
+        currentImg.classList.remove('leaving');
+      }, { once: true });
+
+      current = i;
+    }
+
+    function next() {
+      showIndex((current + 1) % imgs.length);
+    }
+
+    let intervalId = null;
+    function start() {
+      stop();
+      intervalId = setInterval(next, intervalMs + cardIndex * 200);
+    }
+    function stop() {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    }
+
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+
+    imgs.forEach((img, i) => {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', e => {
+        e.preventDefault();
+        showIndex(i);
+      });
+    });
+
+    start();
+
+    state.push({
+      clear: () => {
+        stop();
+        window.removeEventListener('resize', onResize);
+      }
+    });
+  });
+
+  destroyLifeCarousels = function() {
+    state.forEach(s => s.clear());
+    state.length = 0;
+    destroyLifeCarousels = null;
+  };
+
+  return destroyLifeCarousels;
+}
+
+// OPRAVENÁ funkce showLifePage — volá správnou inicializaci
+function showLifePage() {
+  hideAllContentSections();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (lifeSection) lifeSection.style.display = 'block';
+  removeActiveClassFromNav();
+  if (navLife) navLife.classList.add('active');
+
+  // nejprve re-observe animace (pomůže inicializovat animate-on-scroll)
+  if (lifeSection) resetAndObserveSection(lifeSection);
+
+  // pak inicializujeme karusely (bez duplikací)
+  if (typeof initLifeCarousels === 'function') {
+    initLifeCarousels({ intervalMs: 3200 });
+  }
+}
+
+
     // Funkce pro zobrazení stránky Obchod
     function showShopPage() {
       hideAllContentSections();
@@ -2282,7 +2705,10 @@
       } else if (hash === '#funkce') {
         showFunctionsDetailPage(scrollToId); // Předáme scrollToId
       } else if (hash === '#technologie') {
+        showFunctionsDetailPage(scrollToId);
         showTechnologiePage();
+      } else if (hash === '#life') {
+        showLifePage();
       } else if (hash === '#obchod') {
         showShopPage();
       } else if (hash.startsWith('#obchod/produkty/')) {
@@ -2318,6 +2744,11 @@
     navTechnologie.addEventListener('click', function(event) {
       event.preventDefault();
       navigateTo('#technologie');
+    });
+
+        navTechnologie.addEventListener('click', function(event) {
+      event.preventDefault();
+      navigateTo('#life');
     });
 
     navObchod.addEventListener('click', function(event) {
@@ -2461,6 +2892,7 @@
       item.style.setProperty('--delay', `${index * 0.1}s`);
     });
 
+    
     const shopProductItems = document.querySelectorAll('#shop-section .product-item');
     shopProductItems.forEach((item, index) => {
       item.style.setProperty('--delay', `${index * 0.05}s`); // Slightly faster stagger for shop items
